@@ -1,50 +1,64 @@
 <template>
-    <canvas
-        id="canvas"
-        width="200"
-        height="400"
-        style="background-color: #000"
-    ></canvas>
+    <div style="background-color: #000; height: 100vh">
+        <div
+            style="
+                display: flex;
+                height: 100vh;
+                justify-content: center;
+                align-items: center;
+            "
+        >
+            <canvas
+                id="canvas"
+                width="400"
+                height="400"
+                style="background-color: #000"
+            ></canvas>
+        </div>
+    </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { level1, mapShow, getStart } from './levels';
-import { player } from './player';
+// import { level1, mapShow, getStart } from './levels';
+// import { player } from './player';
+import { get2D } from './index';
 
-let canvas: HTMLCanvasElement;
-let context: CanvasRenderingContext2D;
-let player1: any;
+// let canvas: HTMLCanvasElement;
+// let context: CanvasRenderingContext2D;
+// let player1: any;
 
 onMounted(() => {
-    canvas = document.getElementById('canvas') as HTMLCanvasElement;
-    context = canvas.getContext('2d') as CanvasRenderingContext2D;
+    const { canvas, context } = get2D('canvas');
 
-    player1 = player(context, map);
+    console.log(canvas);
+    console.log(context);
 
-    animate();
+    // player1 = player(context, map);
+
+    // animate();
 });
 
-const map = {
-    blockSize: 20,
-    width: 200,
-    height: 400,
-    playerStart: getStart(),
-    content: level1,
-};
+// const map = {
+//     blockSize: 20,
+//     width: 400,
+//     height: 400,
+//     playerStart: getStart(),
+//     content: level1,
+// };
 
-window.addEventListener('keydown', ({ key }) => {
-    player1.input(key);
-});
+// window.addEventListener('keydown', ({ key }) => {
+//     player1.input(key);
+// });
 
-const animate = () => {
-    context.clearRect(0, 0, 270, 480);
+// const animate = () => {
+//     context.clearRect(0, 0, 400, 400);
 
-    mapShow(map, context);
+//     mapShow(map, context);
 
-    player1.update();
-    player1.show();
+//     player1.update();
+//     player1.show();
 
-    requestAnimationFrame(animate);
-};
+//     requestAnimationFrame(animate);
+// };
 </script>
