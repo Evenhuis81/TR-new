@@ -1,3 +1,6 @@
+const notes =
+    '// Typescript make it so that generic functions with different parameters will be accepted and not like optional parameters (Use type inference)';
+
 export const getPlayer = (ctx: CanvasRenderingContext2D, map: any) => {
     const props = {
         pos: {
@@ -62,7 +65,7 @@ export const getPlayer = (ctx: CanvasRenderingContext2D, map: any) => {
 
     const input = (key: string) => {
         if (props.direction !== 'none') return;
-        
+
         if (key === 'w' || key === 'W') {
             props.direction = 'up';
             props.speedY = -8;

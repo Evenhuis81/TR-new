@@ -1,4 +1,5 @@
-import { Controller, InputKey, Level, PlayerProperties } from './types/index.';
+import { block } from './levels';
+import { Controller, Level, PlayerProperties } from './types/index.';
 
 export const getPlayer = (level: Level, { tv }: Controller) => {
     const props: PlayerProperties = {
@@ -7,83 +8,18 @@ export const getPlayer = (level: Level, { tv }: Controller) => {
         vel: { x: 0, y: 0 },
         speed: 0.5,
         move: 'none',
-        face: 'none',
+        face: 'up',
+        stop: () => {},
     };
 
-    const keyInOut = (event: KeyboardEvent) => {
-        if (
-            event.key === 'w' ||
-            event.key === 's' ||
-            event.key === 'a' ||
-            event.key === 'd' ||
-            event.key === 'W' ||
-            event.key === 'S' ||
-            event.key === 'A' ||
-            event.key === 'D'
-        )
-            input(event.type === 'keydown' ? event.key : 'release');
+    props.stop = () => {
+        props.vel.x = 0;
+        props.vel.y = 0;
+        props.move = 'none';
     };
 
-    window.addEventListener('keydown', keyInOut, false);
-    // window.addEventListener('keyup', keyInOut, false);
-
-    const update = () => {
-        props.pos.x += props.vel.x;
-        props.pos.y += props.vel.y;
-        props.absPos.x = Math.floor(props.pos.x);
-        props.absPos.y = Math.floor(props.pos.y);
-
-        // collision + resolve
-        if (props.move === 'up') {
-            if (level.map[props.absPos.y][props.absPos.x] === 'X') {
-                props.vel.y = 0;
-                props.pos.y = props.absPos.y + 1;
-                props.move = 'none';
-            }
-        } else if (props.move === 'down') {
-            if (level.map[props.absPos.y + 1][props.absPos.x] === 'X') {
-                props.vel.y = 0;
-                props.pos.y = props.absPos.y;
-                props.move = 'none';
-            }
-        } else if (props.move === 'left') {
-            if (level.map[props.absPos.y][props.absPos.x] === 'X') {
-                props.vel.x = 0;
-                props.pos.x = props.absPos.x + 1;
-                props.move = 'none';
-            }
-        } else if (props.move === 'right') {
-            if (level.map[props.absPos.y][props.absPos.x + 1] === 'X') {
-                props.vel.x = 0;
-                props.pos.x = props.absPos.x;
-                props.move = 'none';
-            }
-        }
-    };
-
-    const show = () => {
-        tv.fillRect(props.pos.x, props.pos.y, 1, 1, 'blue');
-        // tv.fillCircle(props.pos.x, props.pos.y, 0.2, 'green'); // upper-left
-        // tv.fillCircle(props.pos.x, props.pos.y, 0.02, 'black'); // upper-left
-        // tv.fillCircle(props.pos.x + 1, props.pos.y, 0.2, 'green'); // upper-right
-        // tv.fillCircle(props.pos.x + 1, props.pos.y, 0.02, 'black'); // upper-right
-        // tv.fillCircle(props.pos.x, props.pos.y + 1, 0.2, 'green'); // lower-left
-        // tv.fillCircle(props.pos.x, props.pos.y + 1, 0.02, 'black'); // lower-left
-        // tv.fillCircle(props.pos.x + 1, props.pos.y + 1, 0.2, 'green'); // lower-right
-        // tv.fillCircle(props.pos.x + 1, props.pos.y + 1, 0.02, 'black'); // lower-right
-        tv.strokeRect(props.pos.x, props.pos.y, 1, 1, 'white');
-    };
-
-    const input = (key: InputKey) => {
-        console.log('input: ' + key);
-        if (key === 'release') {
-            props.move = 'none';
-            props.vel.x = 0;
-            props.vel.y = 0;
-            return;
-        }
+    const input = ({ key }: KeyboardEvent) => {
         if (props.move !== 'none') return;
-
         if (key === 'w' || key === 'W') {
             props.move = 'up';
             props.vel.y = -props.speed;
@@ -100,6 +36,56 @@ export const getPlayer = (level: Level, { tv }: Controller) => {
             props.move = 'right';
             props.vel.x = props.speed;
         }
+    };
+
+    window.addEventListener('keydown', input, false);
+    // window.addEventListener('keyup', () => {
+    //     props.move = 'none';
+    //     props.vel.x = 0;
+    //     props.vel.y = 0;
+    // });
+
+    const direction: Record<string, () => void> = {
+        up: () => {
+            const upAt = level.map[props.absPos.y][props.absPos.x];
+            // const leftAt = level.map[props.absPos.y][props.absPos.x];
+            block[upAt].collide(props, {
+                x: props.pos.x,
+                y: props.absPos.y + 1,
+            });
+        },
+        down: () => {
+            const downAt = level.map[props.absPos.y + 1][props.absPos.x];
+            block[downAt].collide(props, { x: props.pos.x, y: props.absPos.y });
+        },
+        left: () => {
+            const leftAt = level.map[props.absPos.y][props.absPos.x];
+            block[leftAt].collide(props, {
+                x: props.absPos.x + 1,
+                y: props.pos.y,
+            });
+        },
+        right: () => {
+            const rightAt = level.map[props.absPos.y][props.absPos.x + 1];
+            block[rightAt].collide(props, {
+                x: props.absPos.x,
+                y: props.pos.y,
+            });
+        },
+    };
+
+    const update = () => {
+        props.pos.x += props.vel.x;
+        props.pos.y += props.vel.y;
+        props.absPos.x = Math.floor(props.pos.x);
+        props.absPos.y = Math.floor(props.pos.y);
+
+        if (props.move !== 'none') direction[props.move]();
+    };
+
+    const show = () => {
+        tv.fillRect(props.pos.x, props.pos.y, 1, 1, 'blue');
+        tv.strokeRect(props.pos.x, props.pos.y, 1, 1, 'white');
     };
 
     return { update, show };

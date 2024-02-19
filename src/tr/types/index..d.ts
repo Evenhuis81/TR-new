@@ -1,9 +1,9 @@
 export type Player = {
     update: () => void;
     show: () => void;
-    input: () => void;
-    pos: { x: number; y: number };
-    move: 'none' | 'up' | 'down' | 'left' | 'right';
+    // input: () => void;
+    // pos: { x: number; y: number };
+    // move: 'none' | 'up' | 'down' | 'left' | 'right';
 };
 
 export type Options = {
@@ -13,31 +13,28 @@ export type Options = {
     bg: string;
 };
 
-export type InputKey =
-    | 'w'
-    | 's'
-    | 'a'
-    | 'd'
-    | 'W'
-    | 'S'
-    | 'A'
-    | 'D'
-    | 'release';
+export type InputKey = 'w' | 's' | 'a' | 'd' | 'W' | 'S' | 'A' | 'D';
 
 export type PlayerProperties = {
     pos: { x: number; y: number };
     absPos: { x: number; y: number };
     vel: { x: number; y: number };
     speed: number;
-    move: string;
-    face: string;
+    move: 'none' | 'up' | 'down' | 'left' | 'right';
+    face: 'up' | 'down' | 'left' | 'right';
+    stop: () => void;
 };
+
+type BlockKey = 'X' | '.';
 
 export type Level = {
     start: { x: number; y: number };
     face: 'none' | 'up' | 'down' | 'left' | 'right';
-    map: Array<Array<string>>;
+    map: Array<Array<BlockKey>>;
     show: () => void;
+    // coins: Array<Array<number>, Array<number>>;
+    coinsX: Array<boolean>;
+    coinsY: Array<boolean>;
 };
 
 export type Controller = {
