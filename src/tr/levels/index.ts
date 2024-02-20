@@ -1,32 +1,4 @@
-import { Level, PlayerProperties, TransformedView } from '../types/index.';
-
-type BlockKey = 'X' | '.';
-type BlockValue = {
-    collide: (
-        player: PlayerProperties,
-        resolvePos: { x: number; y: number },
-        level: Level
-    ) => void;
-};
-type Block = Record<BlockKey, BlockValue>;
-
-export const block: Block = {
-    X: {
-        collide: (
-            player: PlayerProperties,
-            resolvePos: { x: number; y: number }
-        ) => {
-            player.stop();
-            player.pos.x = resolvePos.x;
-            player.pos.y = resolvePos.y;
-        },
-    },
-    '.': {
-        collide: (player: PlayerProperties, _, level: Level) => {
-            const coin = level.map[player.absPos];
-        },
-    },
-};
+import { Level, TransformedView } from '../types/index.';
 
 const levels: Array<Level> = [
     {
@@ -49,6 +21,13 @@ const levels: Array<Level> = [
         coinsY: [],
     },
 ];
+
+export const getCoins = () => {
+    return {
+        coinsX: levels[0].coinsX,
+        coinsY: levels[0].coinsY,
+    };
+};
 
 export const getLevel = (id: number, tv: TransformedView) => {
     const level = levels[id - 1];

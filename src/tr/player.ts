@@ -1,8 +1,9 @@
-import { block } from './levels';
-import { Controller, Level, PlayerProperties } from './types/index.';
+import { setPlayer } from './controller';
+import { block } from './levels/blocks';
+import { Controller, Level, Player } from './types/index.';
 
 export const getPlayer = (level: Level, { tv }: Controller) => {
-    const props: PlayerProperties = {
+    const player: Player = {
         pos: { x: level.start.x, y: level.start.y },
         absPos: { x: level.start.x, y: level.start.y },
         vel: { x: 0, y: 0 },
@@ -12,81 +13,73 @@ export const getPlayer = (level: Level, { tv }: Controller) => {
         stop: () => {},
     };
 
-    props.stop = () => {
-        props.vel.x = 0;
-        props.vel.y = 0;
-        props.move = 'none';
+    player.stop = () => {
+        player.vel.x = 0;
+        player.vel.y = 0;
+        player.move = 'none';
     };
 
     const input = ({ key }: KeyboardEvent) => {
-        if (props.move !== 'none') return;
+        if (player.move !== 'none') return;
         if (key === 'w' || key === 'W') {
-            props.move = 'up';
-            props.vel.y = -props.speed;
+            player.move = 'up';
+            player.vel.y = -player.speed;
         }
         if (key === 's' || key === 'S') {
-            props.move = 'down';
-            props.vel.y = props.speed;
+            player.move = 'down';
+            player.vel.y = player.speed;
         }
         if (key === 'a' || key === 'A') {
-            props.move = 'left';
-            props.vel.x = -props.speed;
+            player.move = 'left';
+            player.vel.x = -player.speed;
         }
         if (key === 'd' || key === 'D') {
-            props.move = 'right';
-            props.vel.x = props.speed;
+            player.move = 'right';
+            player.vel.x = player.speed;
         }
     };
 
     window.addEventListener('keydown', input, false);
     // window.addEventListener('keyup', () => {
-    //     props.move = 'none';
-    //     props.vel.x = 0;
-    //     props.vel.y = 0;
+    //     player.move = 'none';
+    //     player.vel.x = 0;
+    //     player.vel.y = 0;
     // });
 
     const direction: Record<string, () => void> = {
         up: () => {
-            const upAt = level.map[props.absPos.y][props.absPos.x];
-            // const leftAt = level.map[props.absPos.y][props.absPos.x];
-            block[upAt].collide(props, {
-                x: props.pos.x,
-                y: props.absPos.y + 1,
-            });
+            const blockUp = level.map[player.absPos.y][player.absPos.x];
+            block[blockUp][player.move](player);
         },
         down: () => {
-            const downAt = level.map[props.absPos.y + 1][props.absPos.x];
-            block[downAt].collide(props, { x: props.pos.x, y: props.absPos.y });
+            const blockDown = level.map[player.absPos.y + 1][player.absPos.x];
+            block[blockDown][player.move](player);
         },
         left: () => {
-            const leftAt = level.map[props.absPos.y][props.absPos.x];
-            block[leftAt].collide(props, {
-                x: props.absPos.x + 1,
-                y: props.pos.y,
-            });
+            const blockLeft = level.map[player.absPos.y][player.absPos.x];
+            block[blockLeft][player.move](player);
         },
         right: () => {
-            const rightAt = level.map[props.absPos.y][props.absPos.x + 1];
-            block[rightAt].collide(props, {
-                x: props.absPos.x,
-                y: props.pos.y,
-            });
+            const blockRight = level.map[player.absPos.y][player.absPos.x + 1];
+            block[blockRight][player.move](player);
         },
     };
 
     const update = () => {
-        props.pos.x += props.vel.x;
-        props.pos.y += props.vel.y;
-        props.absPos.x = Math.floor(props.pos.x);
-        props.absPos.y = Math.floor(props.pos.y);
+        player.pos.x += player.vel.x;
+        player.pos.y += player.vel.y;
+        player.absPos.x = Math.floor(player.pos.x);
+        player.absPos.y = Math.floor(player.pos.y);
 
-        if (props.move !== 'none') direction[props.move]();
+        if (player.move !== 'none') direction[player.move]();
     };
 
     const show = () => {
-        tv.fillRect(props.pos.x, props.pos.y, 1, 1, 'blue');
-        tv.strokeRect(props.pos.x, props.pos.y, 1, 1, 'white');
+        tv.fillRect(player.pos.x, player.pos.y, 1, 1, 'blue');
+        tv.strokeRect(player.pos.x, player.pos.y, 1, 1, 'white');
     };
+
+    setPlayer(player);
 
     return { update, show };
 };

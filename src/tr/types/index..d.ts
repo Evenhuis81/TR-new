@@ -1,10 +1,9 @@
-export type Player = {
-    update: () => void;
-    show: () => void;
-    // input: () => void;
-    // pos: { x: number; y: number };
-    // move: 'none' | 'up' | 'down' | 'left' | 'right';
-};
+// export type Player = {
+//     update: () => void;
+//     show: () => void;
+// };
+
+export type BlockType = 'X' | '.';
 
 export type Options = {
     pos: string;
@@ -15,7 +14,7 @@ export type Options = {
 
 export type InputKey = 'w' | 's' | 'a' | 'd' | 'W' | 'S' | 'A' | 'D';
 
-export type PlayerProperties = {
+export type Player = {
     pos: { x: number; y: number };
     absPos: { x: number; y: number };
     vel: { x: number; y: number };
@@ -25,12 +24,10 @@ export type PlayerProperties = {
     stop: () => void;
 };
 
-type BlockKey = 'X' | '.';
-
 export type Level = {
     start: { x: number; y: number };
     face: 'none' | 'up' | 'down' | 'left' | 'right';
-    map: Array<Array<BlockKey>>;
+    map: Array<Array<BlockType>>;
     show: () => void;
     // coins: Array<Array<number>, Array<number>>;
     coinsX: Array<boolean>;
@@ -59,4 +56,12 @@ export type TransformedView = {
         color: string
     ) => void;
     fillCircle: (x: number, y: number, r: number, color: string) => void;
+};
+
+export type Engine = {
+    addUpdate: (update: () => void) => void;
+    addShow: (show: () => void) => void;
+    run: () => void;
+    abort: () => void;
+    runOnce: () => void;
 };

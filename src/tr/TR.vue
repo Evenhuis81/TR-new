@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { getController } from '../canvasAPI';
+import { setController, controller } from './controller';
 import { getLevel } from './levels';
 import { getPlayer } from './player';
 
@@ -18,7 +18,7 @@ const options = {
 onMounted(() => {
     const container = document.getElementById('container');
 
-    const controller = getController(container, options);
+    setController(container, options);
 
     const { engine } = controller;
 
