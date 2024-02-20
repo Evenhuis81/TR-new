@@ -1,6 +1,11 @@
-const tvScale = 20;
+import type { TransformedView } from '../tr/types/index.';
 
-export const getTV = (ctx: CanvasRenderingContext2D) => {
+let tv: TransformedView;
+const scale = 20;
+
+export const getTV = () => tv;
+
+export const setTV = (ctx: CanvasRenderingContext2D) => {
     const fillRect = (
         x: number,
         y: number,
@@ -10,7 +15,7 @@ export const getTV = (ctx: CanvasRenderingContext2D) => {
     ) => {
         ctx.fillStyle = color;
         ctx.beginPath();
-        ctx.fillRect(x * tvScale, y * tvScale, w * tvScale, h * tvScale);
+        ctx.fillRect(x * scale, y * scale, w * scale, h * scale);
     };
     const strokeRect = (
         x: number,
@@ -21,17 +26,14 @@ export const getTV = (ctx: CanvasRenderingContext2D) => {
     ) => {
         ctx.strokeStyle = color;
         ctx.beginPath();
-        ctx.strokeRect(x * tvScale, y * tvScale, w * tvScale, h * tvScale);
-    };
-    const rect = (x: number, y: number, w: number, h: number) => {
-        ctx.rect(x * tvScale, y * tvScale, w * tvScale, h * tvScale);
+        ctx.strokeRect(x * scale, y * scale, w * scale, h * scale);
     };
     const fillCircle = (x: number, y: number, r: number, color: string) => {
         ctx.fillStyle = color;
         ctx.beginPath();
-        ctx.arc(x * tvScale, y * tvScale, r * tvScale, 0, Math.PI * 2);
+        ctx.arc(x * scale, y * scale, r * scale, 0, Math.PI * 2);
         ctx.fill();
     };
 
-    return { fillRect, strokeRect, rect, fillCircle };
+    tv = { fillRect, strokeRect, fillCircle };
 };

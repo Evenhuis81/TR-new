@@ -1,6 +1,6 @@
-import { getEngine } from '../canvasAPI/engine';
-import { getTV } from '../canvasAPI/tv';
-import { Engine, Options, Player, TransformedView } from './types/index.';
+import { setEngine } from '../canvasAPI/engine';
+import { setTV } from '../canvasAPI/tv';
+import type { Options } from './types/index.';
 
 const e = {
     msg1: (id: string) => `canvas with id: ${id} not found.`,
@@ -10,13 +10,8 @@ const e = {
 export const controller = {
     canvas: null as unknown as HTMLCanvasElement,
     context: null as unknown as CanvasRenderingContext2D,
-    tv: null as unknown as TransformedView,
-    engine: null as unknown as Engine,
-    player: null as unknown as Player,
-};
-
-export const setPlayer = (player: Player) => {
-    controller.player = player;
+    // tv: null as unknown as TransformedView,
+    // engine: null as unknown as Engine,
 };
 
 export const setController = (
@@ -34,9 +29,13 @@ export const setController = (
 
     setOptions(container, controller.canvas, options);
 
-    controller.tv = getTV(context);
+    setTV(context);
 
-    controller.engine = getEngine(controller.canvas, context);
+    // controller.tv = getTV();
+
+    setEngine(controller.canvas, context);
+
+    // controller.engine = getEngine();
 };
 
 const setOptions = (

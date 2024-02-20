@@ -22,6 +22,8 @@ export type Player = {
     move: 'none' | 'up' | 'down' | 'left' | 'right';
     face: 'up' | 'down' | 'left' | 'right';
     stop: () => void;
+    update: () => void;
+    show: () => void;
 };
 
 export type Level = {

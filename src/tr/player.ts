@@ -1,9 +1,16 @@
-import { setPlayer } from './controller';
-import { block } from './levels/blocks';
-import { Controller, Level, Player } from './types/index.';
+import { getTV } from '../canvasAPI/tv';
+import { getLevel } from './levels';
+// import { block } from './levels/blocks';
+import { Player } from './types/index.';
 
-export const getPlayer = (level: Level, { tv }: Controller) => {
-    const player: Player = {
+const level = getLevel();
+const tv = getTV();
+let player: Player;
+
+export const getPlayer = () => player;
+
+export const setPlayer = () => {
+    player = {
         pos: { x: level.start.x, y: level.start.y },
         absPos: { x: level.start.x, y: level.start.y },
         vel: { x: 0, y: 0 },
@@ -11,8 +18,11 @@ export const getPlayer = (level: Level, { tv }: Controller) => {
         move: 'none',
         face: 'up',
         stop: () => {},
+        update: () => {},
+        show: () => {},
     };
 
+    // Development method
     player.stop = () => {
         player.vel.x = 0;
         player.vel.y = 0;
@@ -40,30 +50,32 @@ export const getPlayer = (level: Level, { tv }: Controller) => {
     };
 
     window.addEventListener('keydown', input, false);
+
+    // Developer method only
     // window.addEventListener('keyup', () => {
     //     player.move = 'none';
     //     player.vel.x = 0;
     //     player.vel.y = 0;
     // });
 
-    const direction: Record<string, () => void> = {
-        up: () => {
-            const blockUp = level.map[player.absPos.y][player.absPos.x];
-            block[blockUp][player.move](player);
-        },
-        down: () => {
-            const blockDown = level.map[player.absPos.y + 1][player.absPos.x];
-            block[blockDown][player.move](player);
-        },
-        left: () => {
-            const blockLeft = level.map[player.absPos.y][player.absPos.x];
-            block[blockLeft][player.move](player);
-        },
-        right: () => {
-            const blockRight = level.map[player.absPos.y][player.absPos.x + 1];
-            block[blockRight][player.move](player);
-        },
-    };
+    // const direction: Record<string, () => void> = {
+    //     up: () => {
+    //         const blockUp = level.map[player.absPos.y][player.absPos.x];
+    //         block[blockUp][player.move]();
+    //     },
+    //     down: () => {
+    //         const blockDown = level.map[player.absPos.y + 1][player.absPos.x];
+    //         block[blockDown][player.move]();
+    //     },
+    //     left: () => {
+    //         const blockLeft = level.map[player.absPos.y][player.absPos.x];
+    //         block[blockLeft][player.move]();
+    //     },
+    //     right: () => {
+    //         const blockRight = level.map[player.absPos.y][player.absPos.x + 1];
+    //         block[blockRight][player.move]();
+    //     },
+    // };
 
     const update = () => {
         player.pos.x += player.vel.x;
@@ -71,7 +83,7 @@ export const getPlayer = (level: Level, { tv }: Controller) => {
         player.absPos.x = Math.floor(player.pos.x);
         player.absPos.y = Math.floor(player.pos.y);
 
-        if (player.move !== 'none') direction[player.move]();
+        // if (player.move !== 'none') direction[player.move]();
     };
 
     const show = () => {
@@ -79,7 +91,6 @@ export const getPlayer = (level: Level, { tv }: Controller) => {
         tv.strokeRect(player.pos.x, player.pos.y, 1, 1, 'white');
     };
 
-    setPlayer(player);
-
-    return { update, show };
+    player.update = update;
+    player.show = show;
 };

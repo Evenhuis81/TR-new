@@ -4,9 +4,10 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { setController, controller } from './controller';
-import { getLevel } from './levels';
-import { getPlayer } from './player';
+import { setController } from './controller';
+import { setLevel } from './levels';
+import { setPlayer } from './player';
+import { startGame } from './';
 
 const options = {
     pos: 'center',
@@ -20,15 +21,10 @@ onMounted(() => {
 
     setController(container, options);
 
-    const { engine } = controller;
+    setLevel(1);
 
-    const level = getLevel(1, controller.tv);
+    setPlayer();
 
-    const player = getPlayer(level, controller);
-
-    engine.addUpdate(player.update);
-    engine.addShow(level.show);
-    engine.addShow(player.show);
-    engine.run();
+    startGame();
 });
 </script>

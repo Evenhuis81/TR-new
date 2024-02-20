@@ -1,66 +1,34 @@
-import { getCoins } from '.';
-import { BlockType, Player } from '../types/index.';
+import { getPlayer } from '../player';
+import { BlockType } from '../types/index.';
 
-const coins = getCoins();
-// const player = getPlayer();
+const player = getPlayer();
+// const coins = getCoins();
 
-export const block: Record<
-    BlockType,
-    Record<string, (player: Player) => void>
-> = {
+export const block: Record<BlockType, Record<string, () => void>> = {
     X: {
-        up: (player) => {
+        up: () => {
             player.stop();
             player.pos.y = player.absPos.y + 1;
         },
-        down: (player) => {
+        down: () => {
             player.stop();
             player.pos.y = player.absPos.y;
         },
-        left: (player) => {
+        left: () => {
             player.stop();
             player.pos.x = player.absPos.x + 1;
         },
-        right: (player) => {
+        right: () => {
             player.stop();
             player.pos.x = player.absPos.x;
         },
     },
     '.': {
-        up: (player) => {
+        up: () => {
             // if (coins.coinsX[player.absPos.x] && coins.coinsY[player.absPos.y])
         },
-        down: (player) => {},
-        left: (player) => {},
-        right: (player) => {},
+        down: () => {},
+        left: () => {},
+        right: () => {},
     },
 };
-
-// export const getBlocks = () => {
-//     //
-// };
-
-// type BlockValue = {
-//     collide: (
-//         player: PlayerProperties,
-//         resolvePos: { x: number; y: number },
-//         level: Level
-//     ) => void;
-// };
-// type Block = Record<BlockKey, BlockValue>;
-
-// X: {
-//     collide: (
-//         player: PlayerProperties,
-//         resolvePos: { x: number; y: number }
-//     ) => {
-//         player.stop();
-//         player.pos.x = resolvePos.x;
-//         player.pos.y = resolvePos.y;
-//     },
-// },
-// '.': {
-//     collide: (player: PlayerProperties, _, level: Level) => {
-//         const coin = level.map[player.absPos];
-//     },
-// },
