@@ -4,27 +4,36 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { setController } from './controller';
-import { setLevel } from './levels';
-import { setPlayer } from './player';
-import { startGame } from './';
+import { getController } from './controller';
+import { getLevel } from './levels';
+import { getPlayer } from './player';
 
 const options = {
     pos: 'center',
     w: 640,
     h: 480,
     bg: '#000',
+    clear: true,
 };
 
 onMounted(() => {
+    // avoid passing tv to other gets
+    // set background clear
     const container = document.getElementById('container');
 
-    setController(container, options);
+    const controller = getController(container, options);
 
-    setLevel(1);
+    const level = getLevel(1, controller.tv);
 
-    setPlayer();
+    const player = getPlayer(level.start.x, level.start.y, controller.tv);
 
-    startGame();
+    // const engine = getEngine();
+    // const player = getPlayer();
+    // const level = getLevel();
+
+    // engine.addUpdate(player.update);
+    // engine.addShow(level.show);
+    // engine.addShow(player.show);
+    // engine.run();
 });
 </script>

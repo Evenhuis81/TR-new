@@ -10,6 +10,7 @@ export type Options = {
     w: number;
     h: number;
     bg: string;
+    clear: boolean;
 };
 
 export type InputKey = 'w' | 's' | 'a' | 'd' | 'W' | 'S' | 'A' | 'D';

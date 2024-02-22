@@ -1,18 +1,12 @@
-import { getTV } from '../canvasAPI/tv';
-import { getLevel } from './levels';
 // import { block } from './levels/blocks';
-import { Player } from './types/index.';
+// import { Player } from './types/index.';
 
-const level = getLevel();
-const tv = getTV();
-let player: Player;
+import { TransformedView } from './types/index.';
 
-export const getPlayer = () => player;
-
-export const setPlayer = () => {
-    player = {
-        pos: { x: level.start.x, y: level.start.y },
-        absPos: { x: level.start.x, y: level.start.y },
+export const getPlayer = (x: number, y: number, tv: TransformedView) => {
+    const player = {
+        pos: { x, y },
+        absPos: { x, y },
         vel: { x: 0, y: 0 },
         speed: 0.5,
         move: 'none',
@@ -58,25 +52,6 @@ export const setPlayer = () => {
     //     player.vel.y = 0;
     // });
 
-    // const direction: Record<string, () => void> = {
-    //     up: () => {
-    //         const blockUp = level.map[player.absPos.y][player.absPos.x];
-    //         block[blockUp][player.move]();
-    //     },
-    //     down: () => {
-    //         const blockDown = level.map[player.absPos.y + 1][player.absPos.x];
-    //         block[blockDown][player.move]();
-    //     },
-    //     left: () => {
-    //         const blockLeft = level.map[player.absPos.y][player.absPos.x];
-    //         block[blockLeft][player.move]();
-    //     },
-    //     right: () => {
-    //         const blockRight = level.map[player.absPos.y][player.absPos.x + 1];
-    //         block[blockRight][player.move]();
-    //     },
-    // };
-
     const update = () => {
         player.pos.x += player.vel.x;
         player.pos.y += player.vel.y;
@@ -93,4 +68,6 @@ export const setPlayer = () => {
 
     player.update = update;
     player.show = show;
+
+    return { update, show };
 };

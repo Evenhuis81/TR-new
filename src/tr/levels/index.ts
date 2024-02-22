@@ -1,7 +1,4 @@
-import { getTV } from '../../canvasAPI/tv';
-import type { Level } from '../types/index.';
-
-let level: Level;
+import type { Level, TransformedView } from '../types/index.';
 
 const levels: Array<Level> = [
     {
@@ -25,11 +22,8 @@ const levels: Array<Level> = [
     },
 ];
 
-export const getLevel = () => level;
-
-export const setLevel = (id: number) => {
-    level = levels[id - 1];
-    const tv = getTV();
+export const getLevel = (id: number, tv: TransformedView) => {
+    const level = levels[id - 1];
 
     // Coin test
     level.coinsX[5] = true;
@@ -54,5 +48,8 @@ export const setLevel = (id: number) => {
             }
         }
     };
+
     level.show = show;
+
+    return level;
 };

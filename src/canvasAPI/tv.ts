@@ -1,11 +1,11 @@
-import type { TransformedView } from '../tr/types/index.';
+// import type { TransformedView } from '../tr/types/index.';
 
-let tv: TransformedView;
+// let tv: TransformedView;
 const scale = 20;
 
-export const getTV = () => tv;
+// export const getTV = () => tv;
 
-export const setTV = (ctx: CanvasRenderingContext2D) => {
+export const getTV = (ctx: CanvasRenderingContext2D) => {
     const fillRect = (
         x: number,
         y: number,
@@ -35,5 +35,5 @@ export const setTV = (ctx: CanvasRenderingContext2D) => {
         ctx.fill();
     };
 
-    tv = { fillRect, strokeRect, fillCircle };
+    return { fillRect, strokeRect, fillCircle };
 };
