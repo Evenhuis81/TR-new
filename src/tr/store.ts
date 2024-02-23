@@ -1,24 +1,32 @@
-const state: Record<string, ReturnType<typeof setState>> = {};
+// const store: Record<string, ReturnType<typeof setItems>> = {};
+// export type State<T extends Item> = Ref<{[id: number]: Readonly<T>}>;
+type Store<T> = Record<string, T>;
 
-const setState = <T>(id: string, items: T) => {
-    state[id] = items;
+const store: Store<T> = {};
 
-    return items;
+// TODO:: Make store and use of a store and set and getters and actions;
+// Make it a module system for multiple stores which all act seperately;
+// Typescript copy from existing vue-services store. (see project CodeBook or Manos for implementation)
+// Either dynamically or specifically per project;
+//
+
+export const useStore = (id: string) => {
+    const setItems = <T>(items: T) => {
+        store[id] = items;
+
+        return items;
+    };
+
+    const getItems = () => {
+        return store[id];
+    };
+
+    return { setItems, getItems };
 };
 
-export const createStore = (id: string) => {
-    let state;
-    // stores[id] = {};
+// const store: Record<string, any> = {}
 
-    // const getStore = () => stores[id];
-
-    // return { set: (items: T) => (state = items), get: () => state };
-    // return { setStore, getStore };
-
-    return { id: {} };
-};
-
-// const stores: Record<string, T> = {}
+// const state: State<T> = ref({});
 
 // const store = createStore<ControllerResource>();
 
