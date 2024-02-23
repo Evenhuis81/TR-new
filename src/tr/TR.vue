@@ -5,8 +5,10 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { getController } from './controller';
-import { getLevel } from './levels';
-import { getPlayer } from './player';
+import store from './store';
+// import { Engine, TransformedView } from './types/index.';
+// import { getLevel } from './levels';
+// import { getPlayer } from './player';
 
 const options = {
     pos: 'center',
@@ -17,15 +19,15 @@ const options = {
 };
 
 onMounted(() => {
-    // avoid passing tv to other gets
-    // set background clear
     const container = document.getElementById('container');
 
     const controller = getController(container, options);
 
-    const level = getLevel(1, controller.tv);
+    store.set(controller);
 
-    const player = getPlayer(level.start.x, level.start.y, controller.tv);
+    // setLevel(1);
+
+    // setPlayer();
 
     // const engine = getEngine();
     // const player = getPlayer();

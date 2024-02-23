@@ -1,8 +1,3 @@
-// export type Player = {
-//     update: () => void;
-//     show: () => void;
-// };
-
 export type BlockType = 'X' | '.';
 
 export type Options = {
@@ -13,7 +8,19 @@ export type Options = {
     clear: boolean;
 };
 
+export interface ControllerResource {
+    canvas: HTMLCanvasElement;
+    context: CanvasRenderingContext2D;
+    tv: TransformedView;
+    engine: Engine;
+}
+
 export type InputKey = 'w' | 's' | 'a' | 'd' | 'W' | 'S' | 'A' | 'D';
+
+// export type Player = {
+//     update: () => void;
+//     show: () => void;
+// };
 
 export type Player = {
     pos: { x: number; y: number };

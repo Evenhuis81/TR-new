@@ -1,5 +1,7 @@
 import { getEngine } from '../canvasAPI/engine';
 import { getTV } from '../canvasAPI/tv';
+// import { storeModuleFactory } from '../services/store';
+// import { store } from './store';
 import type { Options } from './types/index.';
 
 const e = {
