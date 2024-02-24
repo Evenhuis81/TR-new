@@ -1,8 +1,10 @@
+export default () => console.log('initiate store');
+
 // const store: Record<string, ReturnType<typeof setItems>> = {};
 // export type State<T extends Item> = Ref<{[id: number]: Readonly<T>}>;
-type Store<T> = Record<string, T>;
+// type Store<T> = Record<string, T>;
 
-const store: Store<T> = {};
+// const store: Store<T> = {};
 
 // TODO:: Make store and use of a store and set and getters and actions;
 // Make it a module system for multiple stores which all act seperately;
@@ -10,19 +12,19 @@ const store: Store<T> = {};
 // Either dynamically or specifically per project;
 //
 
-export const useStore = (id: string) => {
-    const setItems = <T>(items: T) => {
-        store[id] = items;
+// export const useStore = (id: string) => {
+//     const setItems = <T>(items: T) => {
+//         store[id] = items;
 
-        return items;
-    };
+//         return items;
+//     };
 
-    const getItems = () => {
-        return store[id];
-    };
+//     const getItems = () => {
+//         return store[id];
+//     };
 
-    return { setItems, getItems };
-};
+//     return { setItems, getItems };
+// };
 
 // const store: Record<string, any> = {}
 

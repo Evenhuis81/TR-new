@@ -5,7 +5,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { getController } from './controller';
-import store from './store';
+// import store from './store';
 // import { Engine, TransformedView } from './types/index.';
 // import { getLevel } from './levels';
 // import { getPlayer } from './player';
@@ -23,7 +23,9 @@ onMounted(() => {
 
     const controller = getController(container, options);
 
-    store.set(controller);
+    console.log(controller);
+
+    // store.set(controller);
 
     // setLevel(1);
 
