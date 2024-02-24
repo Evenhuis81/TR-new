@@ -1,4 +1,4 @@
-import { controller, level } from '../store';
+import { controllerStore, levelStore } from '../store';
 import type { Level } from '../types/index.';
 
 const levels: Array<Level> = [
@@ -24,23 +24,29 @@ const levels: Array<Level> = [
 ];
 
 export const setLevel = (id: number) => {
-    const rawLevel = levels[id - 1];
+    const level = levels[id - 1];
 
     // Coin test
-    // rawLevel.coinsX[5] = true;
-    // rawLevel.coinsY[1] = true;
+    // level.coinsX[5] = true;
+    // level.coinsY[1] = true;
 
     const show = () => {
-        for (let y = 0; y < rawLevel.map.length; y++) {
-            for (let x = 0; x < rawLevel.map[y].length; x++) {
-                switch (rawLevel.map[y][x]) {
+        for (let y = 0; y < level.map.length; y++) {
+            for (let x = 0; x < level.map[y].length; x++) {
+                switch (level.map[y][x]) {
                     case 'X':
-                        controller.state.tv.fillRect(x, y, 1, 1, 'red');
+                        controllerStore.state.tv.fillRect(x, y, 1, 1, 'red');
                         break;
                     case '.':
-                        controller.state.tv.strokeRect(x, y, 1, 1, 'purple');
+                        controllerStore.state.tv.strokeRect(
+                            x,
+                            y,
+                            1,
+                            1,
+                            'purple'
+                        );
 
-                        // if (rawLevel.coinsX[x] && rawLevel.coinsY[y])
+                        // if (level.coinsX[x] && level.coinsY[y])
                         //     tv.fillCircle(x + 0.5, y + 0.5, 0.2, 'yellow');
                         break;
                     default:
@@ -50,7 +56,7 @@ export const setLevel = (id: number) => {
         }
     };
 
-    rawLevel.show = show;
+    level.show = show;
 
-    level.set(rawLevel);
+    levelStore.set(level);
 };

@@ -1,6 +1,6 @@
 import { getEngine } from './canvas/engine';
 import { getTV } from './canvas/tv';
-import { controller } from './store';
+import { controllerStore } from './store';
 import type { Options } from './types/index.';
 
 const e = {
@@ -26,7 +26,7 @@ export const setController = (
 
     const engine = getEngine();
 
-    controller.set({ canvas, context, tv, engine });
+    controllerStore.set({ canvas, context, tv, engine });
 };
 
 const setOptions = (

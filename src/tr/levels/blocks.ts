@@ -1,10 +1,10 @@
-// import { getPlayer } from '../player';
+// import { playerStore } from '../store';
 // import { BlockType } from '../types/index.';
 
 // const player = getPlayer();
 // const coins = getCoins();
 
-// export const block: Record<BlockType, Record<string, () => void>> = {
+// export const blocks = {
 //     X: {
 //         up: () => {
 //             player.stop();

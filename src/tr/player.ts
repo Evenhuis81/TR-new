@@ -1,15 +1,15 @@
 // import { block } from './levels/blocks';
-import { controller, level, player } from './store';
+import { controllerStore, levelStore, playerStore } from './store';
 import { Player } from './types/index.';
 
 export const setPlayer = () => {
-    const { x, y } = level.state.start;
+    const { x, y } = levelStore.state.start;
 
-    const rawPlayer: Player = {
+    const player: Player = {
         pos: { x, y },
         absPos: { x, y },
         vel: { x: 0, y: 0 },
-        speed: 0.3,
+        speed: 0.1,
         move: 'none',
         face: 'up',
         stop: () => {},
@@ -17,66 +17,89 @@ export const setPlayer = () => {
         show: () => {},
     };
 
-    rawPlayer.stop = () => {
-        rawPlayer.vel.x = 0;
-        rawPlayer.vel.y = 0;
-        rawPlayer.move = 'none';
+    player.stop = () => {
+        player.vel.x = 0;
+        player.vel.y = 0;
+        player.move = 'none';
     };
 
     const input = ({ key }: KeyboardEvent) => {
-        if (rawPlayer.move !== 'none') return;
+        if (player.move !== 'none') return;
 
         if (key === 'w' || key === 'W') {
-            rawPlayer.move = 'up';
-            rawPlayer.vel.y = -rawPlayer.speed;
+            player.move = 'up';
+            player.vel.y = -player.speed;
         }
         if (key === 's' || key === 'S') {
-            rawPlayer.move = 'down';
-            rawPlayer.vel.y = rawPlayer.speed;
+            player.move = 'down';
+            player.vel.y = player.speed;
         }
         if (key === 'a' || key === 'A') {
-            rawPlayer.move = 'left';
-            rawPlayer.vel.x = -rawPlayer.speed;
+            player.move = 'left';
+            player.vel.x = -player.speed;
         }
         if (key === 'd' || key === 'D') {
-            rawPlayer.move = 'right';
-            rawPlayer.vel.x = rawPlayer.speed;
+            player.move = 'right';
+            player.vel.x = player.speed;
         }
     };
 
     window.addEventListener('keydown', input, false);
 
     // Developer method only
-    window.addEventListener('keyup', () => rawPlayer.stop());
+    window.addEventListener('keyup', () => player.stop());
+
+    const direction = {
+        up: () => {
+            const block =
+                levelStore.state.map[player.absPos.y][player.absPos.x];
+            console.log(block);
+        },
+        down: () => {
+            const block =
+                levelStore.state.map[player.absPos.y + 1][player.absPos.x];
+            console.log(block);
+        },
+        left: () => {
+            const block =
+                levelStore.state.map[player.absPos.y][player.absPos.x];
+            console.log(block);
+        },
+        right: () => {
+            const block =
+                levelStore.state.map[player.absPos.y][player.absPos.x + 1];
+            console.log(block);
+        },
+    };
 
     const update = () => {
-        rawPlayer.pos.x += rawPlayer.vel.x;
-        rawPlayer.pos.y += rawPlayer.vel.y;
-        rawPlayer.absPos.x = Math.floor(rawPlayer.pos.x);
-        rawPlayer.absPos.y = Math.floor(rawPlayer.pos.y);
+        player.pos.x += player.vel.x;
+        player.pos.y += player.vel.y;
+        player.absPos.x = Math.floor(player.pos.x);
+        player.absPos.y = Math.floor(player.pos.y);
 
-        // if (rawPlayer.move !== 'none') direction[rawPlayer.move]();
+        if (player.move !== 'none') direction[player.move]();
     };
 
     const show = () => {
-        controller.state.tv.fillRect(
-            rawPlayer.pos.x,
-            rawPlayer.pos.y,
+        controllerStore.state.tv.fillRect(
+            player.pos.x,
+            player.pos.y,
             1,
             1,
             'blue'
         );
-        controller.state.tv.strokeRect(
-            rawPlayer.pos.x,
-            rawPlayer.pos.y,
+        controllerStore.state.tv.strokeRect(
+            player.pos.x,
+            player.pos.y,
             1,
             1,
             'white'
         );
     };
 
-    rawPlayer.update = update;
-    rawPlayer.show = show;
+    player.update = update;
+    player.show = show;
 
-    player.set(rawPlayer);
+    playerStore.set(player);
 };

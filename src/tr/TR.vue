@@ -7,7 +7,7 @@ import { onMounted } from 'vue';
 import { setController } from './controller';
 import { setLevel } from './levels';
 import { setPlayer } from './player';
-import { controller, player, level } from './store';
+import { controllerStore, playerStore, levelStore } from './store';
 
 const canvasOptions = {
     pos: 'center',
@@ -26,12 +26,11 @@ onMounted(() => {
 
     setPlayer();
 
-    // put this in game initiation
-    const { engine } = controller.state;
+    const { engine } = controllerStore.state;
 
-    engine.addUpdate(player.state.update);
-    engine.addShow(level.state.show);
-    engine.addShow(player.state.show);
+    engine.addUpdate(playerStore.state.update);
+    engine.addShow(levelStore.state.show);
+    engine.addShow(playerStore.state.show);
     engine.run();
 });
 </script>

@@ -8,10 +8,10 @@ const createStore = <T extends {}>() => {
     return { set, state };
 };
 
-export const controller = createStore<ControllerResource>();
+export const controllerStore = createStore<ControllerResource>();
 
-export const level = createStore<Level>();
+export const levelStore = createStore<Level>();
 
-export const player = createStore<Player>();
+export const playerStore = createStore<Player>();
 
 export default null;
