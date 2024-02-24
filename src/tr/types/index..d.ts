@@ -17,21 +17,18 @@ export interface ControllerResource {
 
 export type InputKey = 'w' | 's' | 'a' | 'd' | 'W' | 'S' | 'A' | 'D';
 
-// export type Player = {
-//     update: () => void;
-//     show: () => void;
-// };
+type Direction = 'up' | 'down' | 'left' | 'right';
 
 export type Player = {
     pos: { x: number; y: number };
     absPos: { x: number; y: number };
     vel: { x: number; y: number };
     speed: number;
-    move: 'none' | 'up' | 'down' | 'left' | 'right';
-    face: 'up' | 'down' | 'left' | 'right';
+    move: Direction | 'none';
+    face: Direction;
     stop: () => void;
     update: () => void;
-    show: () => void;
+    draw: {};
 };
 
 export type Level = {
@@ -39,9 +36,6 @@ export type Level = {
     face: 'none' | 'up' | 'down' | 'left' | 'right';
     map: Array<Array<BlockType>>;
     show: () => void;
-    // coins: Array<Array<number>, Array<number>>;
-    // coinsX: Array<boolean>;
-    // coinsY: Array<boolean>;
 };
 
 export type Controller = {

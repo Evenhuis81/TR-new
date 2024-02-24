@@ -18,45 +18,58 @@ const levels: Array<Level> = [
             ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
         ],
         show: () => {},
-        // coinsX: [],
-        // coinsY: [],
     },
 ];
+
+const blocks = {
+    X: (x: number, y: number) => {
+        return {
+            show: () => {
+                controllerStore.state.tv.fillRect(x, y, 1, 1, 'red');
+            },
+        };
+    },
+    '.': (x: number, y: number) => {
+        return {
+            show: () => {
+                controllerStore.state.tv.strokeRect(x, y, 1, 1, 'purple');
+            },
+        };
+    },
+};
+
+type Block = ReturnType<(typeof blocks)['X']>;
 
 export const setLevel = (id: number) => {
     const level = levels[id - 1];
 
-    // Coin test
-    // level.coinsX[5] = true;
-    // level.coinsY[1] = true;
+    const map: Array<Array<Block>> = [];
 
-    const show = () => {
-        for (let y = 0; y < level.map.length; y++) {
-            for (let x = 0; x < level.map[y].length; x++) {
-                switch (level.map[y][x]) {
-                    case 'X':
-                        controllerStore.state.tv.fillRect(x, y, 1, 1, 'red');
-                        break;
-                    case '.':
-                        controllerStore.state.tv.strokeRect(
-                            x,
-                            y,
-                            1,
-                            1,
-                            'purple'
-                        );
+    for (let y = 0; y < level.map.length; y++) {
+        map.push([]);
+        for (let x = 0; x < level.map[y].length; x++) {
+            switch (level.map[y][x]) {
+                case 'X':
+                    map[y].push(blocks['X'](x, y));
+                    break;
+                case '.':
+                    map[y].push(blocks['.'](x, y));
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 
-                        // if (level.coinsX[x] && level.coinsY[y])
-                        //     tv.fillCircle(x + 0.5, y + 0.5, 0.2, 'yellow');
-                        break;
-                    default:
-                        break;
-                }
+    level.show = () => {
+        for (let y = 0; y < map.length; y++) {
+            for (let x = 0; x < map[y].length; x++) {
+                map[y][x].show();
             }
         }
     };
 
-    level.show = show;
-
     levelStore.set(level);
+
+    console.log(map);
 };

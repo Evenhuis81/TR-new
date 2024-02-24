@@ -7,14 +7,13 @@ import { onMounted } from 'vue';
 import { setController } from './controller';
 import { setLevel } from './levels';
 import { setPlayer } from './player';
-import { controllerStore, playerStore, levelStore } from './store';
+import { setUpdates, setCollisions, setShows, run } from './';
 
 const canvasOptions = {
     pos: 'center',
     w: 640,
     h: 480,
     bg: '#000',
-    // clear: true,
 };
 
 onMounted(() => {
@@ -26,11 +25,12 @@ onMounted(() => {
 
     setPlayer();
 
-    const { engine } = controllerStore.state;
+    setUpdates();
 
-    engine.addUpdate(playerStore.state.update);
-    engine.addShow(levelStore.state.show);
-    engine.addShow(playerStore.state.show);
-    engine.run();
+    setCollisions();
+
+    setShows();
+
+    run();
 });
 </script>

@@ -1,5 +1,4 @@
-// import { block } from './levels/blocks';
-import { controllerStore, levelStore, playerStore } from './store';
+import { levelStore, playerStore } from './store';
 import { Player } from './types/index.';
 
 export const setPlayer = () => {
@@ -14,13 +13,29 @@ export const setPlayer = () => {
         face: 'up',
         stop: () => {},
         update: () => {},
-        show: () => {},
+        draw: {},
     };
 
     player.stop = () => {
         player.vel.x = 0;
         player.vel.y = 0;
         player.move = 'none';
+    };
+
+    player.update = () => {
+        player.pos.x += player.vel.x;
+        player.pos.y += player.vel.y;
+        player.absPos.x = Math.floor(player.pos.x);
+        player.absPos.y = Math.floor(player.pos.y);
+    };
+
+    player.draw = {
+        type: 'fillRect',
+        color: 'blue',
+        x: player.pos.x,
+        y: player.pos.y,
+        w: 1,
+        h: 1,
     };
 
     const input = ({ key }: KeyboardEvent) => {
@@ -48,58 +63,6 @@ export const setPlayer = () => {
 
     // Developer method only
     window.addEventListener('keyup', () => player.stop());
-
-    const direction = {
-        up: () => {
-            const block =
-                levelStore.state.map[player.absPos.y][player.absPos.x];
-            console.log(block);
-        },
-        down: () => {
-            const block =
-                levelStore.state.map[player.absPos.y + 1][player.absPos.x];
-            console.log(block);
-        },
-        left: () => {
-            const block =
-                levelStore.state.map[player.absPos.y][player.absPos.x];
-            console.log(block);
-        },
-        right: () => {
-            const block =
-                levelStore.state.map[player.absPos.y][player.absPos.x + 1];
-            console.log(block);
-        },
-    };
-
-    const update = () => {
-        player.pos.x += player.vel.x;
-        player.pos.y += player.vel.y;
-        player.absPos.x = Math.floor(player.pos.x);
-        player.absPos.y = Math.floor(player.pos.y);
-
-        if (player.move !== 'none') direction[player.move]();
-    };
-
-    const show = () => {
-        controllerStore.state.tv.fillRect(
-            player.pos.x,
-            player.pos.y,
-            1,
-            1,
-            'blue'
-        );
-        controllerStore.state.tv.strokeRect(
-            player.pos.x,
-            player.pos.y,
-            1,
-            1,
-            'white'
-        );
-    };
-
-    player.update = update;
-    player.show = show;
 
     playerStore.set(player);
 };
