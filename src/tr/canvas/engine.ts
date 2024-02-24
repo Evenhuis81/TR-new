@@ -1,3 +1,5 @@
+import { controller } from '../store';
+
 const updateList: Array<() => void> = [];
 const showList: Array<() => void> = [];
 
@@ -15,6 +17,8 @@ export const getEngine = () => {
     };
 
     const loop = () => {
+        controller.state.context.clearRect(0, 0, 640, 480);
+
         // Collision and Resolve list?
         for (const update of updateList) update();
         for (const show of showList) show();

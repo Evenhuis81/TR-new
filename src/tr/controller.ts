@@ -1,5 +1,6 @@
 import { getEngine } from './canvas/engine';
 import { getTV } from './canvas/tv';
+import { controller } from './store';
 import type { Options } from './types/index.';
 
 const e = {
@@ -7,7 +8,7 @@ const e = {
     msg2: 'Unable to get 2DContext from canvas',
 };
 
-export const getController = (
+export const setController = (
     container: HTMLElement | null,
     options: Options
 ) => {
@@ -25,7 +26,7 @@ export const getController = (
 
     const engine = getEngine();
 
-    return { canvas, context, tv, engine };
+    controller.set({ canvas, context, tv, engine });
 };
 
 const setOptions = (
@@ -46,6 +47,4 @@ const setOptions = (
     canvas.style.border = '1px solid white';
 
     container.appendChild(canvas);
-
-    // if (clear) ...
 };

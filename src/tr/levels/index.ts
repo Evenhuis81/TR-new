@@ -1,4 +1,5 @@
-import type { Level, TransformedView } from '../types/index.';
+import { controller, level } from '../store';
+import type { Level } from '../types/index.';
 
 const levels: Array<Level> = [
     {
@@ -17,30 +18,30 @@ const levels: Array<Level> = [
             ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
         ],
         show: () => {},
-        coinsX: [],
-        coinsY: [],
+        // coinsX: [],
+        // coinsY: [],
     },
 ];
 
-export const getLevel = (id: number, tv: TransformedView) => {
-    const level = levels[id - 1];
+export const setLevel = (id: number) => {
+    const rawLevel = levels[id - 1];
 
     // Coin test
-    level.coinsX[5] = true;
-    level.coinsY[1] = true;
+    // rawLevel.coinsX[5] = true;
+    // rawLevel.coinsY[1] = true;
 
     const show = () => {
-        for (let y = 0; y < level.map.length; y++) {
-            for (let x = 0; x < level.map[y].length; x++) {
-                switch (level.map[y][x]) {
+        for (let y = 0; y < rawLevel.map.length; y++) {
+            for (let x = 0; x < rawLevel.map[y].length; x++) {
+                switch (rawLevel.map[y][x]) {
                     case 'X':
-                        tv.fillRect(x, y, 1, 1, 'red');
+                        controller.state.tv.fillRect(x, y, 1, 1, 'red');
                         break;
                     case '.':
-                        tv.strokeRect(x, y, 1, 1, 'purple');
+                        controller.state.tv.strokeRect(x, y, 1, 1, 'purple');
 
-                        if (level.coinsX[x] && level.coinsY[y])
-                            tv.fillCircle(x + 0.5, y + 0.5, 0.2, 'yellow');
+                        // if (rawLevel.coinsX[x] && rawLevel.coinsY[y])
+                        //     tv.fillCircle(x + 0.5, y + 0.5, 0.2, 'yellow');
                         break;
                     default:
                         break;
@@ -49,7 +50,7 @@ export const getLevel = (id: number, tv: TransformedView) => {
         }
     };
 
-    level.show = show;
+    rawLevel.show = show;
 
-    return level;
+    level.set(rawLevel);
 };

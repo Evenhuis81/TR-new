@@ -1,14 +1,15 @@
 // import { block } from './levels/blocks';
-// import { Player } from './types/index.';
+import { controller, level, player } from './store';
+import { Player } from './types/index.';
 
-import { TransformedView } from './types/index.';
+export const setPlayer = () => {
+    const { x, y } = level.state.start;
 
-export const getPlayer = (x: number, y: number, tv: TransformedView) => {
-    const player = {
+    const rawPlayer: Player = {
         pos: { x, y },
         absPos: { x, y },
         vel: { x: 0, y: 0 },
-        speed: 0.5,
+        speed: 0.3,
         move: 'none',
         face: 'up',
         stop: () => {},
@@ -16,58 +17,66 @@ export const getPlayer = (x: number, y: number, tv: TransformedView) => {
         show: () => {},
     };
 
-    // Development method
-    player.stop = () => {
-        player.vel.x = 0;
-        player.vel.y = 0;
-        player.move = 'none';
+    rawPlayer.stop = () => {
+        rawPlayer.vel.x = 0;
+        rawPlayer.vel.y = 0;
+        rawPlayer.move = 'none';
     };
 
     const input = ({ key }: KeyboardEvent) => {
-        if (player.move !== 'none') return;
+        if (rawPlayer.move !== 'none') return;
+
         if (key === 'w' || key === 'W') {
-            player.move = 'up';
-            player.vel.y = -player.speed;
+            rawPlayer.move = 'up';
+            rawPlayer.vel.y = -rawPlayer.speed;
         }
         if (key === 's' || key === 'S') {
-            player.move = 'down';
-            player.vel.y = player.speed;
+            rawPlayer.move = 'down';
+            rawPlayer.vel.y = rawPlayer.speed;
         }
         if (key === 'a' || key === 'A') {
-            player.move = 'left';
-            player.vel.x = -player.speed;
+            rawPlayer.move = 'left';
+            rawPlayer.vel.x = -rawPlayer.speed;
         }
         if (key === 'd' || key === 'D') {
-            player.move = 'right';
-            player.vel.x = player.speed;
+            rawPlayer.move = 'right';
+            rawPlayer.vel.x = rawPlayer.speed;
         }
     };
 
     window.addEventListener('keydown', input, false);
 
     // Developer method only
-    // window.addEventListener('keyup', () => {
-    //     player.move = 'none';
-    //     player.vel.x = 0;
-    //     player.vel.y = 0;
-    // });
+    window.addEventListener('keyup', () => rawPlayer.stop());
 
     const update = () => {
-        player.pos.x += player.vel.x;
-        player.pos.y += player.vel.y;
-        player.absPos.x = Math.floor(player.pos.x);
-        player.absPos.y = Math.floor(player.pos.y);
+        rawPlayer.pos.x += rawPlayer.vel.x;
+        rawPlayer.pos.y += rawPlayer.vel.y;
+        rawPlayer.absPos.x = Math.floor(rawPlayer.pos.x);
+        rawPlayer.absPos.y = Math.floor(rawPlayer.pos.y);
 
-        // if (player.move !== 'none') direction[player.move]();
+        // if (rawPlayer.move !== 'none') direction[rawPlayer.move]();
     };
 
     const show = () => {
-        tv.fillRect(player.pos.x, player.pos.y, 1, 1, 'blue');
-        tv.strokeRect(player.pos.x, player.pos.y, 1, 1, 'white');
+        controller.state.tv.fillRect(
+            rawPlayer.pos.x,
+            rawPlayer.pos.y,
+            1,
+            1,
+            'blue'
+        );
+        controller.state.tv.strokeRect(
+            rawPlayer.pos.x,
+            rawPlayer.pos.y,
+            1,
+            1,
+            'white'
+        );
     };
 
-    player.update = update;
-    player.show = show;
+    rawPlayer.update = update;
+    rawPlayer.show = show;
 
-    return { update, show };
+    player.set(rawPlayer);
 };

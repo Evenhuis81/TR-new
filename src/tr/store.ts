@@ -1,35 +1,17 @@
-export default () => console.log('initiate store');
+import { ControllerResource, Level, Player } from './types/index.';
 
-// const store: Record<string, ReturnType<typeof setItems>> = {};
-// export type State<T extends Item> = Ref<{[id: number]: Readonly<T>}>;
-// type Store<T> = Record<string, T>;
+const createStore = <T extends {}>() => {
+    const state = <T>{};
 
-// const store: Store<T> = {};
+    const set = (items: T) => Object.assign(state, items);
 
-// TODO:: Make store and use of a store and set and getters and actions;
-// Make it a module system for multiple stores which all act seperately;
-// Typescript copy from existing vue-services store. (see project CodeBook or Manos for implementation)
-// Either dynamically or specifically per project;
-//
+    return { set, state };
+};
 
-// export const useStore = (id: string) => {
-//     const setItems = <T>(items: T) => {
-//         store[id] = items;
+export const controller = createStore<ControllerResource>();
 
-//         return items;
-//     };
+export const level = createStore<Level>();
 
-//     const getItems = () => {
-//         return store[id];
-//     };
+export const player = createStore<Player>();
 
-//     return { setItems, getItems };
-// };
-
-// const store: Record<string, any> = {}
-
-// const state: State<T> = ref({});
-
-// const store = createStore<ControllerResource>();
-
-// export default store;
+export default null;

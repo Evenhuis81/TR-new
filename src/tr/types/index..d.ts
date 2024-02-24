@@ -5,7 +5,7 @@ export type Options = {
     w: number;
     h: number;
     bg: string;
-    clear: boolean;
+    // clear: boolean;
 };
 
 export interface ControllerResource {
@@ -40,8 +40,8 @@ export type Level = {
     map: Array<Array<BlockType>>;
     show: () => void;
     // coins: Array<Array<number>, Array<number>>;
-    coinsX: Array<boolean>;
-    coinsY: Array<boolean>;
+    // coinsX: Array<boolean>;
+    // coinsY: Array<boolean>;
 };
 
 export type Controller = {

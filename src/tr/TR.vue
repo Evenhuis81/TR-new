@@ -4,40 +4,34 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { getController } from './controller';
-// import store from './store';
-// import { Engine, TransformedView } from './types/index.';
-// import { getLevel } from './levels';
-// import { getPlayer } from './player';
+import { setController } from './controller';
+import { setLevel } from './levels';
+import { setPlayer } from './player';
+import { controller, player, level } from './store';
 
-const options = {
+const canvasOptions = {
     pos: 'center',
     w: 640,
     h: 480,
     bg: '#000',
-    clear: true,
+    // clear: true,
 };
 
 onMounted(() => {
     const container = document.getElementById('container');
 
-    const controller = getController(container, options);
+    setController(container, canvasOptions);
 
-    console.log(controller);
+    setLevel(1);
 
-    // store.set(controller);
+    setPlayer();
 
-    // setLevel(1);
+    // put this in game initiation
+    const { engine } = controller.state;
 
-    // setPlayer();
-
-    // const engine = getEngine();
-    // const player = getPlayer();
-    // const level = getLevel();
-
-    // engine.addUpdate(player.update);
-    // engine.addShow(level.show);
-    // engine.addShow(player.show);
-    // engine.run();
+    engine.addUpdate(player.state.update);
+    engine.addShow(level.state.show);
+    engine.addShow(player.state.show);
+    engine.run();
 });
 </script>
