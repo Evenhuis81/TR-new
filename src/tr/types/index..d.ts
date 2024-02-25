@@ -1,3 +1,15 @@
+export type DrawType = 'fillRect' | 'strokeRect' | 'fillCircle';
+
+export type DrawObject = {
+    type: DrawType;
+    color: string;
+    x: number;
+    y: number;
+    w: number;
+    h: number;
+    r: number;
+};
+
 export type BlockType = 'X' | '.';
 
 export type Options = {
@@ -5,13 +17,11 @@ export type Options = {
     w: number;
     h: number;
     bg: string;
-    // clear: boolean;
 };
 
 export interface ControllerResource {
     canvas: HTMLCanvasElement;
     context: CanvasRenderingContext2D;
-    tv: TransformedView;
     engine: Engine;
 }
 
@@ -28,7 +38,7 @@ export type Player = {
     face: Direction;
     stop: () => void;
     update: () => void;
-    draw: {};
+    draw: Partial<DrawObject>;
 };
 
 export type Level = {

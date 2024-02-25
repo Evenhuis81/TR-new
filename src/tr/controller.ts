@@ -1,5 +1,5 @@
 import { getEngine } from './canvas/engine';
-import { getTV } from './canvas/tv';
+import { setTV } from './canvas/tv';
 import { controllerStore } from './store';
 import type { Options } from './types/index.';
 
@@ -22,11 +22,11 @@ export const setController = (
 
     setOptions(container, canvas, options);
 
-    const tv = getTV(context);
+    setTV(context); // depends on option, make it so that if true, it's tv, else canvas on paint object
 
     const engine = getEngine();
 
-    controllerStore.set({ canvas, context, tv, engine });
+    controllerStore.set({ canvas, context, engine });
 };
 
 const setOptions = (

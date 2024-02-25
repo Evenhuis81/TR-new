@@ -1,6 +1,8 @@
 import { controllerStore, levelStore } from '../store';
 import type { Level } from '../types/index.';
 
+type Block = ReturnType<(typeof blocks)['X']>;
+
 const levels: Array<Level> = [
     {
         start: { x: 2, y: 4 },
@@ -38,8 +40,6 @@ const blocks = {
     },
 };
 
-type Block = ReturnType<(typeof blocks)['X']>;
-
 export const setLevel = (id: number) => {
     const level = levels[id - 1];
 
@@ -70,6 +70,4 @@ export const setLevel = (id: number) => {
     };
 
     levelStore.set(level);
-
-    console.log(map);
 };

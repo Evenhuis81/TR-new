@@ -1,39 +1,31 @@
-// import type { TransformedView } from '../tr/types/index.';
+import { DrawObject } from './engine';
 
-// let tv: TransformedView;
+let c: CanvasRenderingContext2D;
+
 const scale = 20;
 
-// export const getTV = () => tv;
+const fillRect = ({ color, x, y, w, h }: DrawObject) => {
+    c.fillStyle = color;
+    c.beginPath();
+    c.fillRect(x * scale, y * scale, w * scale, h * scale);
+};
 
-export const getTV = (ctx: CanvasRenderingContext2D) => {
-    const fillRect = (
-        x: number,
-        y: number,
-        w: number,
-        h: number,
-        color: string
-    ) => {
-        ctx.fillStyle = color;
-        ctx.beginPath();
-        ctx.fillRect(x * scale, y * scale, w * scale, h * scale);
-    };
-    const strokeRect = (
-        x: number,
-        y: number,
-        w: number,
-        h: number,
-        color: string
-    ) => {
-        ctx.strokeStyle = color;
-        ctx.beginPath();
-        ctx.strokeRect(x * scale, y * scale, w * scale, h * scale);
-    };
-    const fillCircle = (x: number, y: number, r: number, color: string) => {
-        ctx.fillStyle = color;
-        ctx.beginPath();
-        ctx.arc(x * scale, y * scale, r * scale, 0, Math.PI * 2);
-        ctx.fill();
-    };
+const strokeRect = ({ color, x, y, w, h }: DrawObject) => {
+    c.strokeStyle = color;
+    c.beginPath();
+    c.strokeRect(x * scale, y * scale, w * scale, h * scale);
+};
 
+const fillCircle = ({ color, x, y, r }: DrawObject) => {
+    c.fillStyle = color;
+    c.beginPath();
+    c.arc(x * scale, y * scale, r * scale, 0, Math.PI * 2);
+};
+
+export const setTV = (context: CanvasRenderingContext2D) => {
+    c = context;
+};
+
+export const getPaint = () => {
     return { fillRect, strokeRect, fillCircle };
 };
