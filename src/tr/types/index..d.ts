@@ -10,7 +10,11 @@ export type DrawObject = {
     r: number;
 };
 
-export type BlockType = 'X' | '.';
+// export type FillRect = Omit<DrawObject, 'r'>;
+// export type StrokeRect = Omit<DrawObject, 'r'>;
+// export type FillCircle = Omit<DrawObject, 'w' | 'h'>;
+
+// export type DrawObjects = FillRect | StrokeRect | FillCircle;
 
 export type Options = {
     pos: string;
@@ -38,14 +42,18 @@ export type Player = {
     face: Direction;
     stop: () => void;
     update: () => void;
-    draw: Partial<DrawObject>;
+    draw: DrawObject;
 };
+
+export type MapType = 'X' | '.';
+export type BlockType = { draw: DrawObject };
 
 export type Level = {
     start: { x: number; y: number };
     face: 'none' | 'up' | 'down' | 'left' | 'right';
-    map: Array<Array<BlockType>>;
-    show: () => void;
+    map: Array<Array<MapType>>;
+    blocks: Array<Array<BlockType>>;
+    getBlockDrawList: () => BlockType[];
 };
 
 export type Controller = {
@@ -74,7 +82,7 @@ export type TransformedView = {
 
 export type Engine = {
     addUpdate: (update: () => void) => void;
-    addShow: (show: () => void) => void;
+    addDraw: (draw: DrawObject) => void;
     run: () => void;
     abort: () => void;
     runOnce: () => void;

@@ -1,4 +1,4 @@
-import { DrawObject } from './engine';
+import { DrawObject } from '../types/index.';
 
 let c: CanvasRenderingContext2D;
 
@@ -26,6 +26,4 @@ export const setTV = (context: CanvasRenderingContext2D) => {
     c = context;
 };
 
-export const getPaint = () => {
-    return { fillRect, strokeRect, fillCircle };
-};
+export const getPaint = () => ({ fillRect, strokeRect, fillCircle });

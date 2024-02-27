@@ -13,7 +13,15 @@ export const setPlayer = () => {
         face: 'up',
         stop: () => {},
         update: () => {},
-        draw: {},
+        draw: {
+            type: 'fillRect',
+            color: 'blue',
+            x,
+            y,
+            w: 1,
+            h: 1,
+            r: 0,
+        },
     };
 
     player.stop = () => {
@@ -27,15 +35,6 @@ export const setPlayer = () => {
         player.pos.y += player.vel.y;
         player.absPos.x = Math.floor(player.pos.x);
         player.absPos.y = Math.floor(player.pos.y);
-    };
-
-    player.draw = {
-        type: 'fillRect',
-        color: 'blue',
-        x: player.pos.x,
-        y: player.pos.y,
-        w: 1,
-        h: 1,
     };
 
     const input = ({ key }: KeyboardEvent) => {

@@ -1,7 +1,5 @@
-import { controllerStore, levelStore } from '../store';
-import type { Level } from '../types/index.';
-
-type Block = ReturnType<(typeof blocks)['X']>;
+import { levelStore } from '../store';
+import type { Level, MapType, BlockType } from '../types/index.';
 
 const levels: Array<Level> = [
     {
@@ -19,22 +17,35 @@ const levels: Array<Level> = [
             ['X', '.', '.', '.', '.', '.', '.', '.', '.', 'X'],
             ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
         ],
-        show: () => {},
+        blocks: [],
+        getBlockDrawList: () => [],
     },
 ];
 
-const blocks = {
+const createBlock: Record<MapType, (x: number, y: number) => BlockType> = {
     X: (x: number, y: number) => {
         return {
-            show: () => {
-                controllerStore.state.tv.fillRect(x, y, 1, 1, 'red');
+            draw: {
+                type: 'fillRect',
+                color: 'red',
+                x,
+                y,
+                w: 1,
+                h: 1,
+                r: 0,
             },
         };
     },
     '.': (x: number, y: number) => {
         return {
-            show: () => {
-                controllerStore.state.tv.strokeRect(x, y, 1, 1, 'purple');
+            draw: {
+                type: 'strokeRect',
+                color: 'red',
+                x,
+                y,
+                w: 1,
+                h: 1,
+                r: 0,
             },
         };
     },
@@ -43,31 +54,28 @@ const blocks = {
 export const setLevel = (id: number) => {
     const level = levels[id - 1];
 
-    const map: Array<Array<Block>> = [];
-
+    // Convert map elements into blocks
     for (let y = 0; y < level.map.length; y++) {
-        map.push([]);
+        level.blocks.push([]);
         for (let x = 0; x < level.map[y].length; x++) {
-            switch (level.map[y][x]) {
-                case 'X':
-                    map[y].push(blocks['X'](x, y));
-                    break;
-                case '.':
-                    map[y].push(blocks['.'](x, y));
-                    break;
-                default:
-                    break;
-            }
+            level.blocks[y].push(createBlock[level.map[y][x]](x, y));
         }
     }
 
-    level.show = () => {
-        for (let y = 0; y < map.length; y++) {
-            for (let x = 0; x < map[y].length; x++) {
-                map[y][x].show();
+    const getBlockDrawList = () => {
+        const blocksDrawList = [];
+
+        for (let y = 0; y < level.blocks.length; y++) {
+            // blocksDrawList.push([]);
+            for (let x = 0; x < level.blocks[y].length; x++) {
+                blocksDrawList.push(level.blocks[y][x]);
             }
         }
+
+        return blocksDrawList;
     };
+
+    level.getBlockDrawList = getBlockDrawList;
 
     levelStore.set(level);
 };

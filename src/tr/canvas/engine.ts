@@ -4,7 +4,6 @@ import { getPaint } from './tv';
 const paint = getPaint();
 
 const updateList: Array<() => void> = [];
-const showList: Array<() => void> = [];
 const drawList: Array<DrawObject> = [];
 
 let requestID: number;
@@ -12,7 +11,7 @@ let stop = false;
 
 export const getEngine = () => {
     const addUpdate = (update: () => void) => updateList.push(update);
-    const addShow = (show: () => void) => showList.push(show);
+    const addDraw = (draw: DrawObject) => drawList.push(draw);
     const run = () => loop();
     const abort = () => (stop = true);
     const runOnce = () => {
@@ -22,7 +21,6 @@ export const getEngine = () => {
 
     const loop = () => {
         for (const update of updateList) update();
-        // for (const show of showList) show();
         for (const draw of drawList) paint[draw.type](draw);
 
         requestID = requestAnimationFrame(loop);
@@ -33,5 +31,5 @@ export const getEngine = () => {
         }
     };
 
-    return { addUpdate, addShow, run, abort, runOnce };
+    return { addUpdate, addDraw, run, abort, runOnce };
 };

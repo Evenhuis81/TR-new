@@ -8,9 +8,10 @@ export const setCollisions = () => {
     //
 };
 
-export const setShows = () => {
-    controllerStore.state.engine.addShow(levelStore.state.show);
-    // controllerStore.state.engine.addShow(playerStore.state.show);
+export const setDrawList = () => {
+    // controllerStore.state.engine.addDraw(levelStore.state.show);
+    controllerStore.state.engine.addDraw(playerStore.state.draw);
+    // controllerStore.state.engine.addDraw
 };
 
 export const run = () => {
