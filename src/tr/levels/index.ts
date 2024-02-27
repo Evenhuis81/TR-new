@@ -18,7 +18,7 @@ const levels: Array<Level> = [
             ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
         ],
         blocks: [],
-        getBlockDrawList: () => [],
+        getBlockList: () => [],
     },
 ];
 
@@ -27,12 +27,13 @@ const createBlock: Record<MapType, (x: number, y: number) => BlockType> = {
         return {
             draw: {
                 type: 'fillRect',
-                color: 'red',
-                x,
-                y,
-                w: 1,
-                h: 1,
-                r: 0,
+                fillRect: {
+                    color: 'red',
+                    x,
+                    y,
+                    w: 1,
+                    h: 1,
+                },
             },
         };
     },
@@ -40,12 +41,13 @@ const createBlock: Record<MapType, (x: number, y: number) => BlockType> = {
         return {
             draw: {
                 type: 'strokeRect',
-                color: 'red',
-                x,
-                y,
-                w: 1,
-                h: 1,
-                r: 0,
+                strokeRect: {
+                    color: 'red',
+                    x,
+                    y,
+                    w: 1,
+                    h: 1,
+                },
             },
         };
     },
@@ -62,7 +64,7 @@ export const setLevel = (id: number) => {
         }
     }
 
-    const getBlockDrawList = () => {
+    const getBlockList = () => {
         const blocksDrawList = [];
 
         for (let y = 0; y < level.blocks.length; y++) {
@@ -75,7 +77,7 @@ export const setLevel = (id: number) => {
         return blocksDrawList;
     };
 
-    level.getBlockDrawList = getBlockDrawList;
+    level.getBlockList = getBlockList;
 
     levelStore.set(level);
 };

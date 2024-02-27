@@ -15,12 +15,13 @@ export const setPlayer = () => {
         update: () => {},
         draw: {
             type: 'fillRect',
-            color: 'blue',
-            x,
-            y,
-            w: 1,
-            h: 1,
-            r: 0,
+            fillRect: {
+                color: 'blue',
+                x,
+                y,
+                w: 1,
+                h: 1,
+            },
         },
     };
 

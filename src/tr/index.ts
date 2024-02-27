@@ -1,7 +1,9 @@
-import { controllerStore, playerStore, levelStore } from './store';
+import { controllerStore, levelStore, playerStore } from './store';
+
+const { addUpdate, addDraw, run } = controllerStore.state.engine;
 
 export const setUpdates = () => {
-    controllerStore.state.engine.addUpdate(playerStore.state.update);
+    addUpdate(playerStore.state.update);
 };
 
 export const setCollisions = () => {
@@ -9,11 +11,13 @@ export const setCollisions = () => {
 };
 
 export const setDrawList = () => {
-    // controllerStore.state.engine.addDraw(levelStore.state.show);
-    controllerStore.state.engine.addDraw(playerStore.state.draw);
-    // controllerStore.state.engine.addDraw
+    const blockList = levelStore.state.getBlockList();
+
+    blockList.forEach((block) => addDraw(block.draw));
+
+    addDraw(playerStore.state.draw);
 };
 
-export const run = () => {
-    controllerStore.state.engine.run();
+export const start = () => {
+    run();
 };

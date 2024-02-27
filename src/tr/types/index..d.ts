@@ -1,18 +1,21 @@
 export type DrawType = 'fillRect' | 'strokeRect' | 'fillCircle';
 
-export type DrawObject = {
-    type: DrawType;
+type DrawObjectBase = {
     color: string;
     x: number;
     y: number;
-    w: number;
-    h: number;
-    r: number;
 };
 
-// export type FillRect = Omit<DrawObject, 'r'>;
-// export type StrokeRect = Omit<DrawObject, 'r'>;
-// export type FillCircle = Omit<DrawObject, 'w' | 'h'>;
+type FillRect = DrawObjectBase & { w: number; h: number };
+type StrokeRect = DrawObjectBase & { w: number; h: number };
+type FillCircle = DrawObjectBase & { r: number };
+
+export type DrawObject = {
+    type: DrawType;
+    fillRect: FillRect;
+    strokeRect: { color: string; x: number; y: number; w: number; h: number };
+    fillCircle: { color: string; x: number; y: number; r: number };
+};
 
 // export type DrawObjects = FillRect | StrokeRect | FillCircle;
 
@@ -42,18 +45,18 @@ export type Player = {
     face: Direction;
     stop: () => void;
     update: () => void;
-    draw: DrawObject;
+    draw: Partial<DrawObject>;
 };
 
 export type MapType = 'X' | '.';
-export type BlockType = { draw: DrawObject };
+export type BlockType = { draw: Partial<DrawObject> };
 
 export type Level = {
     start: { x: number; y: number };
     face: 'none' | 'up' | 'down' | 'left' | 'right';
     map: Array<Array<MapType>>;
     blocks: Array<Array<BlockType>>;
-    getBlockDrawList: () => BlockType[];
+    getBlockList: () => BlockType[];
 };
 
 export type Controller = {
@@ -82,7 +85,7 @@ export type TransformedView = {
 
 export type Engine = {
     addUpdate: (update: () => void) => void;
-    addDraw: (draw: DrawObject) => void;
+    addDraw: (draw: DrawObjects) => void;
     run: () => void;
     abort: () => void;
     runOnce: () => void;

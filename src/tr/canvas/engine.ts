@@ -1,8 +1,6 @@
 import { DrawObject } from '../types/index.';
 import { getPaint } from './tv';
 
-const paint = getPaint();
-
 const updateList: Array<() => void> = [];
 const drawList: Array<DrawObject> = [];
 
@@ -21,7 +19,7 @@ export const getEngine = () => {
 
     const loop = () => {
         for (const update of updateList) update();
-        for (const draw of drawList) paint[draw.type](draw);
+        for (const draw of drawList) getPaint(draw);
 
         requestID = requestAnimationFrame(loop);
 
