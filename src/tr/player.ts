@@ -31,11 +31,22 @@ export const setPlayer = () => {
         player.move = 'none';
     };
 
+    const direction = {
+        'up' : ,
+        'down' : ,
+        'left' : ,
+        'right' : ,
+    }
+
     player.update = () => {
         player.pos.x += player.vel.x;
         player.pos.y += player.vel.y;
         player.absPos.x = Math.floor(player.pos.x);
         player.absPos.y = Math.floor(player.pos.y);
+
+        // collision
+        if (player.move !== 'none') direction[player.move]();
+        // resolve
     };
 
     const input = ({ key }: KeyboardEvent) => {
