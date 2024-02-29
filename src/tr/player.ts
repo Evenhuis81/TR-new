@@ -9,7 +9,7 @@ export const setPlayer = () => {
         pos: { x, y },
         absPos: { x, y },
         vel: { x: 0, y: 0 },
-        speed: 0.1,
+        speed: 0.5,
         move: 'none',
         face: 'up',
         stop: () => {},
@@ -31,16 +31,46 @@ export const setPlayer = () => {
 
     const direction = {
         up: () => {
-            console.log(player.pos.y);
+            const mapUp =
+                levelStore.state.map[player.absPos.y][player.absPos.x];
+            if (mapUp === 'X') {
+                player.stop();
+                player.pos.y = player.absPos.y + 1;
+            } else if (mapUp === ',') {
+                levelStore.state.map[player.absPos.y][player.absPos.x] = '.';
+            }
         },
         down: () => {
-            //
+            const mapDown =
+                levelStore.state.map[player.absPos.y + 1][player.absPos.x];
+            if (mapDown === 'X') {
+                player.stop();
+                player.pos.y = player.absPos.y;
+            } else if (mapDown === ',') {
+                levelStore.state.map[player.absPos.y + 1][player.absPos.x] =
+                    '.';
+            }
         },
         left: () => {
-            //
+            const mapLeft =
+                levelStore.state.map[player.absPos.y][player.absPos.x];
+            if (mapLeft === 'X') {
+                player.stop();
+                player.pos.x = player.absPos.x + 1;
+            } else if (mapLeft === ',') {
+                levelStore.state.map[player.absPos.y][player.absPos.x] = '.';
+            }
         },
         right: () => {
-            //
+            const mapRight =
+                levelStore.state.map[player.absPos.y][player.absPos.x + 1];
+            if (mapRight === 'X') {
+                player.stop();
+                player.pos.x = player.absPos.x;
+            } else if (mapRight === ',') {
+                levelStore.state.map[player.absPos.y][player.absPos.x + 1] =
+                    '.';
+            }
         },
     };
 
@@ -78,7 +108,7 @@ export const setPlayer = () => {
     window.addEventListener('keydown', input, false);
 
     // Developer method only
-    window.addEventListener('keyup', () => player.stop());
+    // window.addEventListener('keyup', () => player.stop());
     player.stop = () => {
         player.vel.x = 0;
         player.vel.y = 0;

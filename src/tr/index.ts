@@ -5,7 +5,16 @@ export const setUpdates = () => {
 };
 
 export const setDraw = () => {
-    // const blockShowList = levelStore.state.getBlockDrawList();
+    const clear = () => {
+        controllerStore.state.context.clearRect(
+            0,
+            0,
+            controllerStore.state.canvas.width,
+            controllerStore.state.canvas.height
+        );
+    };
+
+    controllerStore.state.engine.addShow(clear);
 
     controllerStore.state.engine.addShow(levelStore.state.show);
 
