@@ -1,8 +1,9 @@
-import { levelStore, playerStore } from './store';
+import { levelStore, playerStore, controllerStore } from './store';
 import { Player } from './types/index.';
 
 export const setPlayer = () => {
     const { x, y } = levelStore.state.start;
+    const { context } = controllerStore.state;
 
     const player: Player = {
         pos: { x, y },
@@ -13,30 +14,35 @@ export const setPlayer = () => {
         face: 'up',
         stop: () => {},
         update: () => {},
-        draw: {
-            type: 'fillRect',
-            fillRect: {
-                color: 'blue',
-                x,
-                y,
-                w: 1,
-                h: 1,
-            },
-        },
+        show: () => {},
     };
 
-    player.stop = () => {
-        player.vel.x = 0;
-        player.vel.y = 0;
-        player.move = 'none';
+    player.show = () => {
+        const { x, y, w, h } = controllerStore.state.tv.world2Screen({
+            x: player.pos.x,
+            y: player.pos.y,
+            w: 1,
+            h: 1,
+        });
+        context.fillStyle = 'blue';
+        context.beginPath();
+        context.fillRect(x, y, w, h);
     };
 
     const direction = {
-        'up' : ,
-        'down' : ,
-        'left' : ,
-        'right' : ,
-    }
+        up: () => {
+            console.log(player.pos.y);
+        },
+        down: () => {
+            //
+        },
+        left: () => {
+            //
+        },
+        right: () => {
+            //
+        },
+    };
 
     player.update = () => {
         player.pos.x += player.vel.x;
@@ -44,9 +50,8 @@ export const setPlayer = () => {
         player.absPos.x = Math.floor(player.pos.x);
         player.absPos.y = Math.floor(player.pos.y);
 
-        // collision
+        // collision/resolve
         if (player.move !== 'none') direction[player.move]();
-        // resolve
     };
 
     const input = ({ key }: KeyboardEvent) => {
@@ -74,6 +79,11 @@ export const setPlayer = () => {
 
     // Developer method only
     window.addEventListener('keyup', () => player.stop());
+    player.stop = () => {
+        player.vel.x = 0;
+        player.vel.y = 0;
+        player.move = 'none';
+    };
 
     playerStore.set(player);
 };

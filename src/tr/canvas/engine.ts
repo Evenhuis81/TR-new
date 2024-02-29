@@ -1,15 +1,12 @@
-import { DrawObject } from '../types/index.';
-import { getPaint } from './tv';
-
-const updateList: Array<() => void> = [];
-const drawList: Array<DrawObject> = [];
+const updateList: Array<Function> = [];
+const showList: Array<Function> = [];
 
 let requestID: number;
 let stop = false;
 
 export const getEngine = () => {
-    const addUpdate = (update: () => void) => updateList.push(update);
-    const addDraw = (draw: DrawObject) => drawList.push(draw);
+    const addUpdate = (update: Function) => updateList.push(update);
+    const addShow = (show: Function) => showList.push(show);
     const run = () => loop();
     const abort = () => (stop = true);
     const runOnce = () => {
@@ -19,7 +16,7 @@ export const getEngine = () => {
 
     const loop = () => {
         for (const update of updateList) update();
-        for (const draw of drawList) getPaint(draw);
+        for (const show of showList) show();
 
         requestID = requestAnimationFrame(loop);
 
@@ -29,5 +26,5 @@ export const getEngine = () => {
         }
     };
 
-    return { addUpdate, addDraw, run, abort, runOnce };
+    return { addUpdate, addShow, run, abort, runOnce };
 };

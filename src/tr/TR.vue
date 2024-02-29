@@ -7,7 +7,7 @@ import { onMounted } from 'vue';
 import { setController } from './controller';
 import { setLevel } from './levels';
 import { setPlayer } from './player';
-import { setUpdates, setCollisions, setDrawList, start } from './';
+import { setUpdates, setDraw, start } from './';
 
 const canvasOptions = {
     pos: 'center',
@@ -21,15 +21,13 @@ onMounted(() => {
 
     setController(container, canvasOptions);
 
-    setLevel(1);
+    setLevel();
 
     setPlayer();
 
     setUpdates();
 
-    setCollisions();
-
-    setDrawList();
+    setDraw();
 
     start();
 });

@@ -4,18 +4,12 @@ export const setUpdates = () => {
     controllerStore.state.engine.addUpdate(playerStore.state.update);
 };
 
-export const setCollisions = () => {
-    //
-};
+export const setDraw = () => {
+    // const blockShowList = levelStore.state.getBlockDrawList();
 
-export const setDrawList = () => {
-    const blockList = levelStore.state.getBlockList();
+    controllerStore.state.engine.addShow(levelStore.state.show);
 
-    blockList.forEach((block) =>
-        controllerStore.state.engine.addDraw(block.draw)
-    );
-
-    controllerStore.state.engine.addDraw(playerStore.state.draw);
+    controllerStore.state.engine.addShow(playerStore.state.show);
 };
 
 export const start = () => {
