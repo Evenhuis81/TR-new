@@ -19,13 +19,6 @@
 
 // export type DrawObjects = FillRect | StrokeRect | FillCircle;
 
-export type Options = {
-    pos: string;
-    w: number;
-    h: number;
-    bg: string;
-};
-
 export interface ControllerResource {
     canvas: HTMLCanvasElement;
     context: CanvasRenderingContext2D;

@@ -1,4 +1,4 @@
-import { Circle, GetTV, Rect } from '../types/index.';
+import { Circle, GetTV, Rect } from '../tr/types/index.';
 
 const offSet = { x: 320, y: 240 };
 
