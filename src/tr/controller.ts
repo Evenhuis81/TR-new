@@ -22,7 +22,9 @@ export const setController = (
 
     setOptions(container, canvas, options);
 
-    const tv = getTV(40);
+    const tv = getTV();
+
+    // tv.setScale({ x: 20, y: 20 });
 
     const engine = getEngine();
 

@@ -50,7 +50,7 @@ export type Player = {
     show: Function;
 };
 
-export type MapType = 'X' | '.' | ',';
+export type MapType = 'X' | '.' | ',' | 'L';
 
 export type Level = {
     start: { x: number; y: number };
@@ -66,10 +66,18 @@ type Rect = {
     h: number;
 };
 
-export type GetTV = (scale: number) => TransformedView;
+type Circle = {
+    x: number;
+    y: number;
+    r: numberl;
+};
+
+export type GetTV = () => TransformedView;
 
 export type TransformedView = {
-    world2Screen: (rect: Rect) => Rect;
+    world2ScreenRect: (rect: Rect) => Rect;
+    world2ScreenCircle: (rect: Circle) => Circle;
+    setScale: ({ x: number, y: number }) => void;
 };
 
 export type Engine = {
@@ -78,4 +86,5 @@ export type Engine = {
     run: () => void;
     abort: () => void;
     runOnce: () => void;
+    frameCount: () => number;
 };

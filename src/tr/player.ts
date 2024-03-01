@@ -18,7 +18,7 @@ export const setPlayer = () => {
     };
 
     player.show = () => {
-        const { x, y, w, h } = controllerStore.state.tv.world2Screen({
+        const { x, y, w, h } = controllerStore.state.tv.world2ScreenRect({
             x: player.pos.x,
             y: player.pos.y,
             w: 1,
